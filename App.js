@@ -1,9 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, StyleSheet, Image, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator, DrawerContentScrollView } from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import * as SplashScreen from "expo-splash-screen";
 
-// Importiere die Screens
+// Screens
 import Dashboard from "./screens/Dashboard";
 import Konto from "./screens/Konto";
 import News from "./screens/News";
@@ -15,62 +16,77 @@ import Ranglisten from "./screens/Ranglisten";
 import Qualifikationen from "./screens/Qualifikationen";
 import Statistik from "./screens/Statistik";
 import Einstellungen from "./screens/Einstellungen";
+import Login from "./screens/Login";
 
+import ProgressBar from "./components/ProgressBar";
+
+// Drawer
 const Drawer = createDrawerNavigator();
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      {/* Hauptmenüpunkte */}
-      <TouchableOpacity onPress={() => props.navigation.navigate("Dashboard")}>
-        <Text style={styles.menuItem}>Dashboard</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Konto")}>
-        <Text style={styles.menuItem}>Konto</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("News")}>
-        <Text style={styles.menuItem}>News</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Nachrichten")}>
-        <Text style={styles.menuItem}>Nachrichten</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Beschwerden")}>
-        <Text style={styles.menuItem}>Beschwerden</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Listen")}>
-        <Text style={styles.menuItem}>Listen</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Turniere")}>
-        <Text style={styles.menuItem}>Turniere</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Ranglisten")}>
-        <Text style={styles.menuItem}>Ranglisten</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Qualifikationen")}>
-        <Text style={styles.menuItem}>Qualifikationen</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Statistik")}>
-        <Text style={styles.menuItem}>Statistik</Text>
-      </TouchableOpacity>
-
-      {/* Menüpunkt am unteren Ende des Bildschirms */}
-      <View style={styles.bottomMenu}>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Einstellungen")}>
-          <Text style={styles.menuItem}>Einstellungen</Text>
-        </TouchableOpacity>
-      </View>
-    </DrawerContentScrollView>
-  );
-}
+// Verhindern, dass Expo den Splashscreen automatisch ausblendet
+SplashScreen.preventAutoHideAsync().catch(() => {
+});
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
+  // Neuer State: Ist der Nutzer eingeloggt?
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Simuliere kurzen Ladevorgang (z.B. 2 Sekunden)
+    const timer = setTimeout(() => {
+      setAppIsReady(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Splashscreen ausblenden, sobald appIsReady == true
+  useEffect(() => {
+    async function hideSplash() {
+      if (appIsReady) {
+        await SplashScreen.hideAsync();
+      }
+    }
+    hideSplash();
+  }, [appIsReady]);
+
+  // Wenn die App lädt, können wir noch unseren Splash-Inhalt rendern
+  // (falls du ein eigenes, manuelles Splash-Design anzeigst)
+  const onLayoutRootView = useCallback(async () => {
+    // Keine weitere Logik nötig, wenn appIsReady == true
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    // Zeige Splash-Layout
+    return (
+      <View style={styles.splashContainer} onLayout={onLayoutRootView}>
+        <Image
+          source={require("./assets/splash_logo.png")}
+          style={styles.logo}
+        />
+        <ProgressBar progress={50} />
+        <Text>Lädt...</Text> 
+      </View>
+    );
+  }
+
+  // Ab hier ist appIsReady == true, wir entscheiden:
+  // Ist der User eingeloggt? Wenn nein -> Login-Screen
+  if (!isLoggedIn) {
+    return (
+      <Login
+        onLoginSuccess={() => {
+          setIsLoggedIn(true);
+        }}
+      />
+    );
+  }
+
+  // Ist der Nutzer eingeloggt -> Drawer mit deinen Screens anzeigen
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="Dashboard"
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-      >
-        {/* Screens */}
+      <Drawer.Navigator initialRouteName="Dashboard">
         <Drawer.Screen name="Dashboard" component={Dashboard} />
         <Drawer.Screen name="Konto" component={Konto} />
         <Drawer.Screen name="News" component={News} />
@@ -88,17 +104,16 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  menuItem: {
-    fontSize: 16,
-    padding: 10,
-    marginVertical: 5,
-    marginLeft: 10,
-    color: "#333",
+  splashContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
   },
-  bottomMenu: {
-    marginTop: "auto", // Positioniert das Element am unteren Ende
-    padding: 10,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+    marginBottom: 20,
   },
 });
