@@ -90,23 +90,168 @@ export default function App() {
   // Ist der Nutzer eingeloggt -> Drawer mit deinen Screens anzeigen
   return (
     <NavigationContainer>
-      <Drawer.Navigator 
+      <Drawer.Navigator
         initialRouteName="Dashboard"
         screenOptions={{
           drawerType: "slide", 
+          drawerActiveTintColor: "#cd4c25",
+          drawerInactiveTintColor: "#333",
         }}
-        >
-        <Drawer.Screen name="Dashboard" component={Dashboard} />
-        <Drawer.Screen name="Konto" component={Konto} />
-        <Drawer.Screen name="News" component={News} />
-        <Drawer.Screen name="Nachrichten" component={Nachrichten} />
-        <Drawer.Screen name="Beschwerden" component={Beschwerden} />
-        <Drawer.Screen name="Listen" component={Listen} />
-        <Drawer.Screen name="Turniere" component={Turniere} />
-        <Drawer.Screen name="Ranglisten" component={Ranglisten} />
-        <Drawer.Screen name="Qualifikationen" component={Qualifikationen} />
-        <Drawer.Screen name="Statistik" component={Statistik} />
-        <Drawer.Screen name="Einstellungen" component={Einstellungen} />
+      >
+        <Drawer.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{
+            drawerLabel: "Dashboard",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/dashboard.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Konto"
+          component={Konto}
+          options={{
+            drawerLabel: "Konto",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/konto.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="News"
+          component={News}
+          options={{
+            drawerLabel: "News",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/news.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Nachrichten"
+          component={Nachrichten}
+          options={{
+            drawerLabel: "Nachrichten",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/nachrichten.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Beschwerden"
+          component={Beschwerden}
+          options={{
+            drawerLabel: "Beschwerden",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/beschwerden.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Listen"
+          component={Listen}
+          options={{
+            drawerLabel: "Listen",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/listen.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Turniere"
+          component={Turniere}
+          options={{
+            drawerLabel: "Turniere",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/turniere.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Ranglisten"
+          component={Ranglisten}
+          options={{
+            drawerLabel: "Ranglisten",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/ranglisten.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Qualifikationen"
+          component={Qualifikationen}
+          options={{
+            drawerLabel: "Qualifikationen",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/qualifikationen.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Statistik"
+          component={Statistik}
+          options={{
+            drawerLabel: "Statistik",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/statistik.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="Einstellungen"
+          component={Einstellungen}
+          options={{
+            drawerLabel: "Einstellungen",
+            drawerIcon: () => (
+              <Image
+                source={require("./assets/icons/einstellungen.png")}
+                style={styles.icon}
+              />
+            ),
+          }}
+        />
+
         <Drawer.Screen
           name="TLobby"
           component={TLobby}
@@ -114,7 +259,7 @@ export default function App() {
             drawerItemStyle: { display: "none" },
           }}
         />
-  
+
         <Drawer.Screen
           name="FLobby"
           component={FLobby}
@@ -130,7 +275,7 @@ export default function App() {
             drawerItemStyle: { display: "none" },
           }}
         />
-
+        
         <Drawer.Screen
           name="DLobby"
           component={DLobby}
@@ -149,6 +294,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
   logo: {
     width: 150,
