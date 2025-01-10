@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import * as SplashScreen from "expo-splash-screen";
 
-// Screens
 import Dashboard from "./screens/Dashboard";
 import Konto from "./screens/Konto";
 import News from "./screens/News";
@@ -24,20 +23,16 @@ import DLobby from "./screens/DLobby";
 
 import ProgressBar from "./components/ProgressBar";
 
-// Drawer
 const Drawer = createDrawerNavigator();
 
-// Verhindern, dass Expo den Splashscreen automatisch ausblendet
 SplashScreen.preventAutoHideAsync().catch(() => {
 });
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
-  // Neuer State: Ist der Nutzer eingeloggt?
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Simuliere kurzen Ladevorgang (z.B. 2 Sekunden)
     const timer = setTimeout(() => {
       setAppIsReady(true);
     }, 2000);
@@ -45,7 +40,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Splashscreen ausblenden, sobald appIsReady == true
   useEffect(() => {
     async function hideSplash() {
       if (appIsReady) {
@@ -55,14 +49,10 @@ export default function App() {
     hideSplash();
   }, [appIsReady]);
 
-  // Wenn die App lädt, können wir noch unseren Splash-Inhalt rendern
-  // (falls du ein eigenes, manuelles Splash-Design anzeigst)
   const onLayoutRootView = useCallback(async () => {
-    // Keine weitere Logik nötig, wenn appIsReady == true
   }, [appIsReady]);
 
   if (!appIsReady) {
-    // Zeige Splash-Layout
     return (
       <View style={styles.splashContainer} onLayout={onLayoutRootView}>
         <Image
@@ -75,8 +65,6 @@ export default function App() {
     );
   }
 
-  // Ab hier ist appIsReady == true, wir entscheiden:
-  // Ist der User eingeloggt? Wenn nein -> Login-Screen
   if (!isLoggedIn) {
     return (
       <Login
@@ -87,7 +75,6 @@ export default function App() {
     );
   }
 
-  // Ist der Nutzer eingeloggt -> Drawer mit deinen Screens anzeigen
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -275,7 +262,7 @@ export default function App() {
             drawerItemStyle: { display: "none" },
           }}
         />
-        
+
         <Drawer.Screen
           name="DLobby"
           component={DLobby}
