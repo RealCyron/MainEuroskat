@@ -90,7 +90,12 @@ export default function App() {
   // Ist der Nutzer eingeloggt -> Drawer mit deinen Screens anzeigen
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Dashboard">
+      <Drawer.Navigator 
+        initialRouteName="Dashboard"
+        screenOptions={{
+          drawerType: "slide", 
+        }}
+        >
         <Drawer.Screen name="Dashboard" component={Dashboard} />
         <Drawer.Screen name="Konto" component={Konto} />
         <Drawer.Screen name="News" component={News} />
@@ -102,10 +107,37 @@ export default function App() {
         <Drawer.Screen name="Qualifikationen" component={Qualifikationen} />
         <Drawer.Screen name="Statistik" component={Statistik} />
         <Drawer.Screen name="Einstellungen" component={Einstellungen} />
-        <Drawer.Screen name="TLobby" component={TLobby} />
-        <Drawer.Screen name="FLobby" component={FLobby} />
-        <Drawer.Screen name="CLobby" component={CLobby} />
-        <Drawer.Screen name="DLobby" component={DLobby} />
+        <Drawer.Screen
+          name="TLobby"
+          component={TLobby}
+          options={{
+            drawerItemStyle: { display: "none" },
+          }}
+        />
+  
+        <Drawer.Screen
+          name="FLobby"
+          component={FLobby}
+          options={{
+            drawerItemStyle: { display: "none" },
+          }}
+        />
+
+        <Drawer.Screen
+          name="CLobby"
+          component={CLobby}
+          options={{
+            drawerItemStyle: { display: "none" },
+          }}
+        />
+
+        <Drawer.Screen
+          name="DLobby"
+          component={DLobby}
+          options={{
+            drawerItemStyle: { display: "none" },
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
