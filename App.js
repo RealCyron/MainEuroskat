@@ -17,6 +17,10 @@ import Qualifikationen from "./screens/Qualifikationen";
 import Statistik from "./screens/Statistik";
 import Einstellungen from "./screens/Einstellungen";
 import Login from "./screens/Login";
+import TLobby from "./screens/TLobby";
+import FLobby from "./screens/FLobby";
+import CLobby from "./screens/CLobby";
+import DLobby from "./screens/DLobby";
 
 import ProgressBar from "./components/ProgressBar";
 
@@ -98,6 +102,10 @@ export default function App() {
         <Drawer.Screen name="Qualifikationen" component={Qualifikationen} />
         <Drawer.Screen name="Statistik" component={Statistik} />
         <Drawer.Screen name="Einstellungen" component={Einstellungen} />
+        <Drawer.Screen name="TLobby" component={TLobby} />
+        <Drawer.Screen name="FLobby" component={FLobby} />
+        <Drawer.Screen name="CLobby" component={CLobby} />
+        <Drawer.Screen name="DLobby" component={DLobby} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
