@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
+import { UserContext } from "../UserContext";
 
 export default function Dashboard({ navigation }) {
 
@@ -10,12 +11,15 @@ export default function Dashboard({ navigation }) {
         year: "numeric",
       }); 
       
-    const userName = "Admin";  
+    const { userName } = useContext(UserContext);
     return (
         
     <View style={styles.container}>
         <Text style={styles.greeting}>
-            Hallo, {userName}! Heute ist {today}.
+          Hallo, {userName || "Unbekannt"}!
+        </Text>
+        <Text style={styles.date}>
+          Heute ist {today}.
         </Text>
         <View style={styles.box}>
         <Text style={styles.boxTitle}>Turnier Lobby</Text>
@@ -54,23 +58,29 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: "row",
-      flexWrap: "wrap",            // Ermöglicht Zeilenumbruch
+      flexWrap: "wrap",            
       justifyContent: "space-around",
       alignItems: "center",
       padding: 20,
     },
     greeting: {
-      fontSize: 60,
+      fontSize: 22,
+      marginBottom: 1,
+      fontWeight: "bold",
+    },
+    date: {
+      fontSize: 16,
       marginBottom: 15,
     },
     boxRow: {
-      flexDirection: "row",           // Legt die Boxen in eine Zeile
-      justifyContent: "space-around", // Gleichmäßiger Abstand
-      flexWrap: "wrap",               // Erlaubt Zeilenumbruch, falls zu wenig Platz
+      flexDirection: "row",           
+      justifyContent: "space-around", 
+      flexWrap: "wrap",               
       alignItems: "center",
     },
     box: {
-      width: "40%",                   // 2 Boxen pro Zeile (bei flexWrap)
+      width: "40%", 
+      maxWidth: 200,
       backgroundColor: "#f0f0f0",
       padding: 15,
       marginVertical: 10,

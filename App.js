@@ -23,6 +23,8 @@ import DLobby from "./screens/DLobby";
 
 import ProgressBar from "./components/ProgressBar";
 
+import { UserProvider } from "./UserContext";
+
 const Drawer = createDrawerNavigator();
 
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -67,16 +69,19 @@ export default function App() {
 
   if (!isLoggedIn) {
     return (
-      <Login
-        onLoginSuccess={() => {
-          setIsLoggedIn(true);
-        }}
-      />
+      <UserProvider>
+        <Login
+          onLoginSuccess={() => {
+            setIsLoggedIn(true);
+          }}
+        />
+      </UserProvider>  
     );
   }
 
   return (
-    <NavigationContainer>
+   <UserProvider>
+     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="Dashboard"
         screenOptions={{
@@ -272,6 +277,7 @@ export default function App() {
         />
       </Drawer.Navigator>
     </NavigationContainer>
+   </UserProvider>
   );
 }
 

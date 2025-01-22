@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,11 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
+import { UserContext } from "../UserContext";
 
 export default function Login({ onLoginSuccess }) {
+  const { setUserName } = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,6 +39,8 @@ export default function Login({ onLoginSuccess }) {
       if (!response.ok) {
         throw new Error(data.message || "Login fehlgeschlagen");
       }
+      setUserName(username);
+      
       onLoginSuccess();
 
     } catch (err) {
