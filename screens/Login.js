@@ -7,10 +7,12 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
+import { Base64 } from "js-base64";
 import { UserContext } from "../UserContext";
 
 export default function Login({ onLoginSuccess }) {
-  const { setUserName } = useContext(UserContext);
+  const { setAuthToken, setUserName } = useContext(UserContext);
+  const auth = Base64.encode("admin:mV7DnDVPgX")
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,6 +29,7 @@ export default function Login({ onLoginSuccess }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Basic " + auth,
         },
         body: JSON.stringify({
           username,
@@ -36,10 +39,13 @@ export default function Login({ onLoginSuccess }) {
 
       const data = await response.json();
 
+      console.log(data);
+
       if (!response.ok) {
         throw new Error(data.message || "Login fehlgeschlagen");
       }
       setUserName(username);
+      setAuthToken(data.token);
       
       onLoginSuccess();
 
